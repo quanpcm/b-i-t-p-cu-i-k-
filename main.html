@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BookVerse</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>📚 BookVerse</h1>
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="🔍 Tìm sách theo tên hoặc tác giả...">
+    <button onclick="searchBooks()">Tìm kiếm</button>
+  </div>
+  
+  <h2>Kết quả tìm kiếm</h2>
+  <div id="searchResults" class="book-list"></div>
+
+  <div class="section">
+    <h2>🔥 Phổ biến nhất</h2>
+    <div class="scroll-row" id="popular-row"></div>
+  </div>
+
+  <div class="section">
+    <h2>💘 Lãng mạn</h2>
+    <div class="scroll-row" id="romance-row"></div>
+  </div>
+
+  <div class="section">
+    <h2>🧙‍♂️ Giả tưởng</h2>
+    <div class="scroll-row" id="fantasy-row"></div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
