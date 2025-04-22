@@ -1,84 +1,36 @@
-const loginTab = document.getElementById("login-tab");
-const registerTab = document.getElementById("register-tab");
-const loginForm = document.getElementById("login-form");
-const registerForm = document.getElementById("register-form");
-const messageBox = document.getElementById("message");
+function register() {
+  const user = document.getElementById("registerUser").value.trim();
+  const pass = document.getElementById("registerPass").value.trim();
+  const msg = document.getElementById("registerMsg");
 
-loginTab.onclick = () => {
-  loginTab.classList.add("active");
-  registerTab.classList.remove("active");
-  loginForm.classList.remove("hidden");
-  registerForm.classList.add("hidden");
-  messageBox.innerText = '';
-};
-
-registerTab.onclick = () => {
-  registerTab.classList.add("active");
-  loginTab.classList.remove("active");
-  registerForm.classList.remove("hidden");
-  loginForm.classList.add("hidden");
-  messageBox.innerText = '';
-};
-
-function handleRegister() {
-  const username = document.getElementById("register-username").value;
-  const email = document.getElementById("register-email").value;
-  const password = document.getElementById("register-password").value;
-
-  if (!username || !email || !password) {
-    showMessage("Please fill out all fields.", "red");
+  if (!user || !pass) {
+    msg.innerText = "Vui lòng nhập đầy đủ thông tin.";
     return;
   }
 
-  // Kiểm tra xem username đã tồn tại chưa
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  if (users[username]) {
-    showMessage("Username already exists. Please choose another.", "red");
+  if (localStorage.getItem(user)) {
+    msg.innerText = "Tên người dùng đã tồn tại.";
     return;
   }
 
-  // Lưu thông tin người dùng vào localStorage
-  users[username] = { email, password };
-  localStorage.setItem("users", JSON.stringify(users));
-
-  showMessage(`Registered successfully as ${username}!`, "green");
-
-  // Xoá input
-  document.getElementById("register-username").value = "";
-  document.getElementById("register-email").value = "";
-  document.getElementById("register-password").value = "";
+  localStorage.setItem(user, pass);
+  msg.style.color = "green";
+  msg.innerText = "Đăng ký thành công!";
 }
 
-function handleLogin() {
-  const username = document.getElementById("login-username").value;
-  const password = document.getElementById("login-password").value;
+function login() {
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value.trim();
+  const msg = document.getElementById("loginMsg");
 
-  if (!username || !password) {
-    showMessage("Please enter both fields.", "red");
-    return;
+  const stored = localStorage.getItem(user);
+  if (stored && stored === pass) {
+    msg.style.color = "green";
+    msg.innerText = "Đăng nhập thành công!";
+    setTimeout(() => {
+      window.location.href = "main.html";
+    }, 1000);
+  } else {
+    msg.innerText = "Sai tài khoản hoặc mật khẩu.";
   }
-
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  const user = users[username];
-
-  if (!user) {
-    showMessage("Username not found.", "red");
-    return;
-  }
-
-  if (user.password !== password) {
-    showMessage("Incorrect password.", "red");
-    return;
-  }
-
-  showMessage(`Welcome back, ${username}!`, "green");
-
-  // Xoá input
-  document.getElementById("login-username").value = "";
-  document.getElementById("login-password").value = "";
-}
-
-function showMessage(text, color) {
-  messageBox.innerText = text;
-  messageBox.style.color = color;
 }
