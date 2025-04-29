@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đọc sách</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      padding: 20px;
+      background: #fefefe;
+      line-height: 1.7;
+      color: #222;
+    }
+    .content {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ddd;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .loading {
+      text-align: center;
+      font-size: 20px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">📖 Đọc Sách</h1>
+  <div class="loading" id="loading">Đang tải nội dung...</div>
+  <div class="content" id="bookContent" style="display:none;"></div>
+
+  <script>
+    async function loadBookText() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      if (!id) {
+        document.getElementById("loading").textContent = "Không tìm thấy sách.";
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://gutendex.com/books/${id}`);
+        const book = await res.json();
+        const formats = book.formats;
+
+        const textUrl =
+          formats["text/plain; charset=utf-8"] ||
+          formats["text/plain"] ||
+          formats["text/html; charset=utf-8"] ||
+          formats["text/html"] ||
+          null;
+
+        if (!textUrl) {
+          document.getElementById("loading").textContent = "Không thể đọc nội dung sách.";
+          return;
+        }
+
+        const textRes = await fetch(textUrl);
+        const isHtml = textUrl.includes("html");
+        const content = await textRes.text();
+
+        document.getElementById("loading").style.display = "none";
+        const bookContent = document.getElementById("bookContent");
+        bookContent.style.display = "block";
+
+        if (isHtml) {
+          bookContent.innerHTML = content;
+        } else {
+          bookContent.textContent = content;
+        }
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById("loading").textContent = "Lỗi khi tải nội dung sách.";
+      }
+    }
+
+    loadBookText();
+  </script>
+</body>
+</html>
