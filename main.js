@@ -1,70 +1,57 @@
-function toggleFavorite(bookId, btn) {
-  const username = localStorage.getItem("currentUser");
-  if (!username) {
-    alert("Bạn cần đăng nhập để sử dụng tính năng này!");
-    return;
-  }
+const topics = {
+  Suggestion: "Literature",         // Gợi ý
+  Science: "Science",
+  FairyTales: "Fairy Tales",
+  Western: "Western",
+  European: "Europe"
+};
 
-  const userKey = `user_${username}`;
-  const userData = JSON.parse(localStorage.getItem(userKey));
-  const index = userData.favorites.indexOf(bookId);
+const rowsContainer = document.getElementById("rowsContainer");
 
-  if (index === -1) {
-    userData.favorites.push(bookId);
-    btn.classList.add("favorited");
-    btn.innerHTML = "★";
-  } else {
-    userData.favorites.splice(index, 1);
-    btn.classList.remove("favorited");
-    btn.innerHTML = "★";
-  }
+function createRow(topicKey, displayName) {
+  const section = document.createElement("section");
+  const title = document.createElement("h2");
+  title.textContent = displayName;
+  section.appendChild(title);
 
-  localStorage.setItem(userKey, JSON.stringify(userData));
+  const row = document.createElement("div");
+  row.className = "scroll-row";
+  row.id = `row-${topicKey}`;
+  section.appendChild(row);
+
+  rowsContainer.appendChild(section);
 }
 
-function isFavorite(bookId) {
-  const username = localStorage.getItem("currentUser");
-  if (!username) return false;
-
-  const userData = JSON.parse(localStorage.getItem(`user_${username}`));
-  return userData?.favorites?.includes(bookId) || false;
-}
-
-async function loadBooks(query = "") {
-  const res = await fetch(`https://gutendex.com/books/?search=${query}`);
-  const data = await res.json();
-  const books = data.results.slice(0, 20); // chọn ít sách để load nhanh
-  const container = document.getElementById("bookList");
-  container.innerHTML = "";
-
+function renderBooks(topicKey, books) {
+  const row = document.getElementById("row-" + topicKey);
   books.forEach(book => {
-    const id = book.id;
-    const title = book.title;
-    const cover = book.formats["image/jpeg"] || "https://via.placeholder.com/200x300?text=No+Cover";
-    const author = book.authors[0]?.name || "Không rõ";
-    const isFav = isFavorite(id);
+    const imgUrl = book.formats["image/jpeg"] || book.formats["image/png"] || "https://via.placeholder.com/180x250";
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.minWidth = "180px";
 
-    const div = document.createElement("div");
-    div.className = "book";
-    div.innerHTML = `
-      <img src="${cover}" alt="${title}">
-      <h3>${title}</h3>
-      <p>${author}</p>
-      <a href="book.html?id=${id}">Xem chi tiết</a>
-      <button class="fav-btn ${isFav ? 'favorited' : ''}" onclick="toggleFavorite(${id}, this)">★</button>
+    card.innerHTML = `
+      <a href="book.html?id=${book.id}" style="text-decoration: none; color: inherit;">
+        <img src="${imgUrl}" class="card-img-top" alt="${book.title}">
+        <div class="card-body">
+          <p class="card-text comfortaa-font">${book.title}</p>
+        </div>
+      </a>
     `;
-    container.appendChild(div);
+
+    row.appendChild(card);
   });
 }
 
-function searchBooks() {
-  const query = document.getElementById("searchInput").value.trim();
-  loadBooks(query);
-}
+Object.entries(topics).forEach(([key, keyword]) => {
+  createRow(key, keyword);
 
-document.querySelector("form[role='search']").addEventListener("submit", function (e) {
-  e.preventDefault();
-  searchBooks();
+  fetch(`https://gutendex.com/books?search=${encodeURIComponent(keyword)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.results?.length > 0) {
+        renderBooks(key, data.results.slice(0, 12));
+      }
+    })
+    .catch(err => console.error("Lỗi khi tải sách:", err));
 });
-
-loadBooks();

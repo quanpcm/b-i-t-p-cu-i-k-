@@ -32,7 +32,7 @@ async function loadBookDetail() {
         <p><strong>Chủ đề:</strong> ${subjects}</p>
         ${
           readLink
-            ? `<a href="read.html?id=${book.id}" class="read-btn">📘 Đọc sách</a>`
+            ? `<a href="https://www.gutenberg.org/ebooks/${bookId}" target="_blank" class="btn btn-primary">Đọc sách</a>`
             : `<p>❌ Không có định dạng đọc trực tiếp.</p>`
         }
       </div>
@@ -51,20 +51,31 @@ async function loadSuggestions(lang = "en") {
     const res = await fetch(`https://gutendex.com/books/?languages=${lang}`);
     const data = await res.json();
     const container = document.getElementById("suggestionList");
+    if (!container) return;
+
     container.innerHTML = "";
+
+    const currentUser = localStorage.getItem("currentUser");
+    let userFavorites = [];
+
+    if (currentUser) {
+      const userData = JSON.parse(localStorage.getItem(`user_${currentUser}`));
+      userFavorites = userData?.favorites || [];
+    }
 
     data.results.slice(0, 10).forEach(book => {
       const id = book.id;
       const cover = book.formats["image/jpeg"] || "https://via.placeholder.com/180x280?text=No+Cover";
       const title = book.title || "Không rõ";
+      const isFav = userFavorites.includes(id);
 
       const div = document.createElement("div");
       div.className = "book";
       div.innerHTML = `
-        <a href="book.html?id=${id}">
-          <img src="${cover}" alt="${title}">
-          <h4>${title}</h4>
-        </a>
+        <img src="${cover}" alt="${title}">
+        <h4>${title}</h4>
+        <a href="book.html?id=${id}">Chi tiết</a>
+        <span class="star ${isFav ? 'favorited' : ''}" onclick="toggleFavorite(${id}, this)">&#9733;</span>
       `;
       container.appendChild(div);
     });
@@ -73,4 +84,26 @@ async function loadSuggestions(lang = "en") {
   }
 }
 
+function toggleFavorite(bookId, btn) {
+  const username = localStorage.getItem("currentUser");
+  if (!username) {
+    alert("Bạn cần đăng nhập để sử dụng tính năng này!");
+    return;
+  }
+
+  const userKey = `user_${username}`;
+  const userData = JSON.parse(localStorage.getItem(userKey)) || { favorites: [] };
+  const index = userData.favorites.indexOf(bookId);
+
+  if (index === -1) {
+    userData.favorites.push(bookId);
+  } else {
+    userData.favorites.splice(index, 1);
+  }
+
+  localStorage.setItem(userKey, JSON.stringify(userData));
+  btn.classList.toggle("favorited");
+}
+
 loadBookDetail();
+loadSuggestions();

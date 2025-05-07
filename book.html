@@ -7,12 +7,56 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 <body>
-  <h1>📖 Chi tiết sách</h1>
-  <div class="book-detail" id="bookDetail">Đang tải...</div>
+  <nav class="navbar bg-body-tertiary fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand comfortaa-font" href="./main.html">Thế giới sách TA</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title comfortaa-font" id="offcanvasNavbarLabel">Thế giới sách TA</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link" href="favorites.html">⭐ Sách yêu thích</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Thông tin
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Cần trợ giúp? bấm vào đây!</a></li>
+                <li><a class="dropdown-item" href="#">Thông tin nhà sáng lập</a></li>
+                <li><a class="dropdown-item" href="favorites.html">📚 Sách yêu thích</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Thoát ra</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex mt-3" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container mt-5">
+    <div class="book-detail" id="bookDetail">
+    </div>
 
-  <h2>📚 Gợi ý tương tự</h2>
-  <div class="suggestions-container" id="suggestions"></div>
+    <h2 class="comfortaa-font">📚 Gợi ý cùng thể loại</h2>
+    <div id="suggestionList" style="display: flex; overflow-x: auto; gap: 10px;"></div>
+  </div>
+
   <script src="./book.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>

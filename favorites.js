@@ -35,4 +35,4 @@ async function loadFavorites() {
     }
   }
 
-  loadFavorites();
+loadFavorites();

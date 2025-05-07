@@ -4,19 +4,61 @@
   <meta charset="UTF-8">
   <title>Danh sách sách</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+  </style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <style>
+    body {
+      background-color: white;
+      color: black;
+    }
+    h2 {
+      margin: 20px 0 10px 10px;
+    }
+    .scroll-row {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      padding-left: 10px;
+    }
+    .scroll-row::-webkit-scrollbar {
+      height: 8px;
+    }
+    .scroll-row::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 4px;
+    }
+    .card {
+      background-color: #1f1f1f;
+      color: white;
+      border: none;
+      margin-right: 10px;
+    }
+    .card-img-top {
+      height: 250px;
+      object-fit: cover;
+    }
+    .card-text {
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar bg-body-tertiary fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand">Thế giới sách TA</a>
+      <a class="navbar-brand comfortaa-font" href="./main.html">Thế giới sách TA</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
         aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Thế giới sách TA</h5>
+          <h5 class="offcanvas-title comfortaa-font" id="offcanvasNavbarLabel">Thế giới sách TA</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -48,14 +90,15 @@
       </div>
     </div>
   </nav>
-  
-  <h1>.</h1>
+  <h1 class="comfortaa-font">Sách gợi ý📚</h1>
   <div class="search-container">
     <input type="text" id="searchInput" placeholder="Tìm sách...">
     <button onclick="searchBooks()">Tìm</button>
   </div>
   <div class="book-list" id="bookList"></div>
-
+  <div class="container-fluid mt-4">
+    <div id="rowsContainer"></div>
+  </div>
   <script src="./main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
