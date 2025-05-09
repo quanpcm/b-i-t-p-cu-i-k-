@@ -500,3 +500,73 @@ body {
   font-weight: 700;
   font-style: normal;
 }
+
+body {
+  background-color: #e3f2fd;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  width: 300px;
+  text-align: center;
+}
+
+h2 {
+  color: #0d6efd;
+  margin-bottom: 20px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+button {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0b5ed7;
+}
+
+.switch-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.switch-text a {
+  color: #0d6efd;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.switch-text a:hover {
+  text-decoration: underline;
+}
+
+#login-msg,
+#register-msg {
+  margin-top: 10px;
+  font-size: 14px;
+}
